@@ -6,10 +6,22 @@ use Kernel\Request;
 use Modules\AuthAjaxAddon\Models\Tokens;
 
 class AuthAjaxAddonController extends \Extensions\Controller{
+	/**
+	 * Установка модуля
+	 *
+	 * @method install
+	 */
 	public function install(){
 		module('AuthAjaxAddon') -> install();
 	}
 
+	/**
+	 * Контроллер регистрации
+	 *
+	 * @method signup
+	 *
+	 * @return [string] Результаты операции в json формате
+	 */
 	public function signup(){
 		Request::clear();
 		$post = Request::post();
@@ -21,6 +33,13 @@ class AuthAjaxAddonController extends \Extensions\Controller{
 		]);
 	}
 
+	/**
+	 * Контроллер входа в систему
+	 *
+	 * @method signin
+	 *
+	 * @return [string] Результаты операции в json формате
+	 */
 	public function signin(){
 		Request::clear();
 		$post = Request::post();
@@ -35,6 +54,15 @@ class AuthAjaxAddonController extends \Extensions\Controller{
 		]);
 	}
 
+	/**
+	 * Контроллер выхода из системы
+	 *
+	 * @method signout
+	 *
+	 * @param  [string] $token Строка токена
+	 *
+	 * @return [string] Результаты операции в json формате
+	 */
 	public function signout($token){
 		$result = Tokens::ins() -> signout($token);
 
@@ -42,5 +70,10 @@ class AuthAjaxAddonController extends \Extensions\Controller{
 			'status' => !$result ? 'fail' : 'success',
 			'token' => $token,
 		]);
+	}
+
+	public function get_user_data($token){
+		$user = Tokens::ins() -> get_user_by_token($token);
+		
 	}
 }

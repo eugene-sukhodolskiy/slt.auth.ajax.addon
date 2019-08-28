@@ -11,6 +11,7 @@ class TokensMigration extends \Extensions\Migration{
 			$t -> int('user_id')
 			-> varchar('token', 255)
 			-> varchar('ip', 50)
+			-> boolean('status') // live or dead
 			-> timestamp('date_of_update')
 			-> timestamp('date_of_create');
 		});
